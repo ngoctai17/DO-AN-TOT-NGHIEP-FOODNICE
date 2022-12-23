@@ -38,7 +38,7 @@ router.post('/addproduct', [isLogin, upload.single('image')], async function (re
     let { body, file } = req;
     let image = '';
     if (file) {
-        image = `http:/192.168.0.69:3000/images/${file.filename}`;
+        image = `http://192.168.0.69:3000/images/${file.filename}`;
     }
     body.status = true;
     body = { ...body, image };
@@ -75,7 +75,7 @@ router.post('/product/:id/edit', [isLogin, upload.single('image')], async functi
     const product = await productController.getByIdProduct(params.id);
     let image = product.image;
     if (file) {
-        image = `http:/192.168.0.69:3000/images/${file.filename}`;
+        image = `http://192.168.0.69:3000/images/${file.filename}`;
     }
     body = { ...body, image };
     try {

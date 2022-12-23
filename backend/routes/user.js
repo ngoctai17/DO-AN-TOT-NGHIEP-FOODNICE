@@ -68,9 +68,9 @@ router.get('/register', [isLogin, isAdmin], function (req, res, next) {
 
 router.post('/register-user', [isLogin, upload.single('image')], async function (req, res, next) {
     let { body, file } = req;
-    let image = 'http:/192.168.0.69:3000/image-1669710148885-709896471-avatar.jpg';
+    let image = 'http://192.168.0.69:3000/image-1669710148885-709896471-avatar.jpg';
     if (file) {
-        image = `http:/192.168.0.69:3000/images/${file.filename}`;
+        image = `http://192.168.0.69:3000/images/${file.filename}`;
     }
     body.role = 'Mod';
     body = { ...body, image };

@@ -28,7 +28,7 @@ router.post('/addcategory',  [isLogin, upload.single('image')], async function (
     if (body){
         let image = '';
     if (file) {
-        image = `http:/192.168.0.69:3000/images/${file.filename}`;
+        image = `http://192.168.0.69:3000/images/${file.filename}`;
     }
     body = { ...body, image };
     }
@@ -59,7 +59,7 @@ router.post('/category/:id/edit', [isLogin, upload.single('image')], async funct
     const category = await categoryController.getCategoryById(params.id);
     let image = category.image;
     if (file) {
-        image = `http:/192.168.0.69:3000/images/${file.filename}`;
+        image = `http://192.168.0.69:3000/images/${file.filename}`;
     }
     body = { ...body, image };
     try {
