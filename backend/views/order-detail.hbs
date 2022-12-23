@@ -49,11 +49,11 @@
                                                         </div>
                                                         <div class="ms-3">
                                                             <h5>Tên: {{this.product_id.name}}</h5>
-                                                            <p class="small mb-0">{{this.product_id.description}}</p>
+                                                            {{!-- <p class="small mb-0">{{this.product_id.description}}</p> --}}
                                                         </div>
                                                     </div>
                                                     <div class="d-flex flex-row align-items-center">
-                                                        <div style="width: 300px;">
+                                                        <div style="width: 150px;">
                                                             <h5 class="fw-normal mb-0">Số lượng: {{this.quantity}}</h5>
                                                         </div>
                                                     </div>
@@ -136,7 +136,7 @@
                                                 {{/if}}
                                             </div>
                                             {{#if result.success}}
-                                            <a onclick="goPay('{{this.order._id}}')" style="width: 100%;"
+                                            <a onclick="goPay('{{result.order._id}}')" style="width: 100%;"
                                                 class="btn btn-dark btn-block btn-lg">
                                                 Đã giao hàng
                                             </a>
@@ -160,9 +160,6 @@
 </div>
 <input id="delivering" type="hidden" value="{{result.order.delivering}}"></input>
 <script>
-    const deleteCart = (id) => {
-        window.location.href = `/delete-cart/${id}`
-    }
     const goPay = (id) => {
         Swal.fire({
             title: 'Are you sure?',
