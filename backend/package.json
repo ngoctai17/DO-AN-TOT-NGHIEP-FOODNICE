@@ -1,0 +1,40 @@
+{
+  "name": "server",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "@ant-design/charts": "^1.4.2",
+    "bcryptjs": "^2.4.3",
+    "bootstrap": "^5.2.2",
+    "bourbon": "^7.2.0",
+    "cloudinary": "^1.32.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
+    "debug": "~2.6.9",
+    "dotenv": "^16.0.3",
+    "express": "~4.16.1",
+    "express-fileupload": "^1.4.0",
+    "express-session": "^1.17.2",
+    "express.io": "^1.1.13",
+    "hbs": "~4.0.4",
+    "http-errors": "~1.6.3",
+    "jsonwebtoken": "^8.5.1",
+    "loader": "^2.1.1",
+    "mongoose": "^6.2.8",
+    "morgan": "~1.9.1",
+    "multer": "^1.4.4",
+    "nodemailer": "^6.8.0",
+    "nodemon": "^2.0.20",
+    "socket.io": "^4.5.4",
+    "stripe": "^11.5.0",
+    "validator-js": "^0.2.1"
+  },
+  "devDependencies": {
+    "@types/socket.io": "^3.0.2"
+  }
+}

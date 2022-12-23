@@ -1,0 +1,169 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" type="text/css" href="/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="/images/favicon.ico" />
+</head>
+<div class="container-scroller">
+    {{> navbar}}
+    <div class="container-fluid page-body-wrapper">
+        {{> sidebar}}
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="page-header">
+                    <h3 class="page-title">
+                        <span class="page-title-icon bg-gradient-info text-white me-2">
+                            <i class="mdi mdi-clipboard-plus"></i>
+                        </span> Thêm mã giảm giá
+                    </h3>
+                    <br />
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/list-discount">Danh sách</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Mã giảm giá</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Mã giảm giá</h4>
+                                {{#if success}}
+                                <input type="hidden" id="successful" value="{{success}}" />
+                                {{/if}}
+                                {{#if error}}
+                                <div class="alert alert-danger">{{error}}</div>
+                                {{/if}}
+                                <br />
+                                <form class="forms-sample" method="post" action="/add-discount">
+                                    <div class="form-group">
+                                        <label for="exampleInputUsername1">Thông tin</label>
+                                        <input type="text" class="form-control" name="title" placeholder="Title"
+                                            required>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Mã giảm giá</label>
+                                                <input type="text" class="form-control" name="discount"
+                                                    placeholder="Discount" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Số lượng mã</label>
+                                                <input type="number" class="form-control" name="quantity"
+                                                    placeholder="Số lượng" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="exampleInputUsername1">Phần trăm được giảm</label>
+                                                <input type="number" min="0" max="100" class="form-control"
+                                                    name="percent" placeholder="%" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <br />
+                                                <button class="btn btn-info" id="btnDiscount" data-toggle="dropdown"
+                                                    href="#">Hình thức giảm giá</button>
+                                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                                    <li><a class="dropdown-item" onclick="getAll()">Tất cả sản phẩm</a>
+                                                    </li>
+                                                    <li><a class="dropdown-item" onclick="getCategory()">Giảm theo
+                                                            loại</a>
+                                                    </li>
+                                                    <li><a class="dropdown-item" onclick="getProduct()">Giảm theo sản
+                                                            phẩm</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4" style="display: none;" id="category">
+                                            <div class="form-group">
+                                                <label for="exampleFormControlSelect1">Loại sản phẩm được giảm</label>
+                                                <select class="form-control form-control-lg" name="category_id">
+                                                    {{#each categories}}
+                                                    <option value="{{this._id}}">{{this.name}}</option>
+                                                    {{/each}}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4" style="display: none;" id="product">
+                                            <div class="form-group">
+                                                <label for="exampleFormControlSelect1">Sản phẩm được giảm</label>
+                                                <select class="form-control form-control-lg" name="product_id">
+                                                    {{#each products}}
+                                                    <option value="{{this._id}}">{{this.name}}</option>
+                                                    {{/each}}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="isAll" name="isAll" value="true" />
+                                    <input type="hidden" id="isCate" name="isCate" value="false" />
+                                    <input type="hidden" id="isProduct" name="isProduct" value="false" />
+                                    <button type="submit" id="submit"
+                                        class="btn btn-gradient-primary me-2">Thêm</button>
+                                    <button class="btn btn-light">Hủy</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- plugins:js -->
+
+<script>
+    window.onload = function () {
+        var successful = document.getElementById("successful").value;
+        if (successful) {
+            let timerInterval
+            Swal.fire({
+                title: 'Thêm thành công!',
+                timer: 1000,
+                didOpen: () => {
+                    const b = Swal.getHtmlContainer().querySelector('b')
+                    timerInterval = setInterval(() => {
+                        b.textContent = Swal.getTimerLeft()
+                    }, 100)
+                },
+                willClose: () => {
+                    clearInterval(timerInterval)
+                }
+            })
+        }
+    }
+    const getAll = () => {
+        document.getElementById('isAll').value = true;
+        document.getElementById('isCate').value = false;
+        document.getElementById('isProduct').value = false;
+        document.getElementById('btnDiscount').innerText = 'Tất cả sản phẩm'
+        document.getElementById('product').style.display = 'none'
+        document.getElementById('category').style.display = 'none'
+    }
+    const getCategory = () => {
+        document.getElementById('isAll').value = false;
+        document.getElementById('isCate').value = true;
+        document.getElementById('isProduct').value = false;
+        document.getElementById('btnDiscount').innerText = 'Giảm theo loại'
+        document.getElementById('product').style.display = 'none'
+        document.getElementById('category').style.display = 'block'
+    }
+    const getProduct = () => {
+        document.getElementById('isAll').value = false;
+        document.getElementById('isCate').value = false;
+        document.getElementById('isProduct').value = true;
+        document.getElementById('btnDiscount').innerText = 'Giảm theo sản phẩm'
+        document.getElementById('product').style.display = 'block'
+        document.getElementById('category').style.display = 'none'
+    }
+</script>

@@ -1,0 +1,29 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" type="text/css" href="/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="/images/favicon.ico" />
+</head>
+<div class="container-scroller">
+    {{> navbar}}
+    <div class="container-fluid page-body-wrapper">
+        {{> sidebar}}
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="page-header">
+                    <h3 class="page-title" style="color: red;"> Bạn không có quyền truy cập vào trang này </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.onload = function () {
+        Swal.fire({
+                icon: 'error',
+                text: 'Bạn cần có quyền admin!',
+            })
+    }
+</script>

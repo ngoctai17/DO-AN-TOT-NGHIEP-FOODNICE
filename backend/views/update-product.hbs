@@ -1,0 +1,90 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" type="text/css" href="/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="/images/favicon.ico" />
+</head>
+<div class="container-scroller">
+    {{> navbar}}
+    <div class="container-fluid page-body-wrapper">
+        {{> sidebar}}
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="page-header">
+                    <h3 class="page-title">
+                        <span class="page-title-icon bg-gradient-info text-white me-2">
+                            <i class="mdi mdi-tooltip-edit"></i>
+                        </span> Chỉnh sửa sản phẩm
+                    </h3>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/list-product">Danh sách</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Sản phẩm</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Sản phẩm</h4>
+                                <br />
+                                <form class="forms-sample" method="post" action="/product/{{product._id}}/edit"
+                                    enctype="multipart/form-data">
+                                    <div class="form-group">
+                                        <label for="exampleFormControlSelect1">Loại sản phẩm</label>
+                                        <select class="form-control form-control-lg" name="category_id">
+                                            <option value="{{categoryget._id}}">{{categoryget.name}}</option>
+                                            {{#each category}}
+                                            <option value="{{this._id}}">{{this.name}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputUsername1">Tên sản phẩm</label>
+                                        <input type="text" class="form-control" name="name" value="{{product.name}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Giá sản phẩm</label>
+                                        <input type="number" class="form-control" name="price" value="{{product.price}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Số lượng sản phẩm</label>
+                                        <input type="number" class="form-control" name="quantity" value="{{product.quantity}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Thông tin sản phẩm</label>
+                                        <input type="text" class="form-control" name="description" value="{{product.description}}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>File upload</label>
+                                        <input type="file" class="form-control" onchange="onChangeFile();"
+                                            id="image-file" name="image"/>
+                                        <img id="image-view" src="{{product.image}}"
+                                            style="margin-top: 10px; width: 250px; height: 100px; display: block; object-fit: contain;"
+                                            class="form-control">
+                                    </div>
+                                    <button type="submit" id="submit" class="btn btn-gradient-primary me-2">Chỉnh sửa</button>
+                                    <button class="btn btn-light">Hủy</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+  const onChangeFile = () => {
+    const file = document.getElementById('image-file').files[0];
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.getElementById('image-view').src = e.target.result;
+      document.getElementById('image-view').style.display = 'block';
+    }
+    reader.readAsDataURL(file);
+  }
+</script>

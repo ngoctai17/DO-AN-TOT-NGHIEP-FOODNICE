@@ -1,0 +1,177 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" type="text/css" href="/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/createCart.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="/images/favicon.ico" />
+</head>
+<div class="container-scroller">
+    {{> navbar}}
+    <div class="container-fluid page-body-wrapper">
+        {{> sidebar}}
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="page-header">
+                    <h3 class="page-title">
+                        <span class="page-title-icon bg-gradient-info text-white me-2">
+                            <i class="mdi mdi-cart"></i>
+                        </span> Giỏ hàng
+                    </h3>
+                    <br />
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/add-cart">Thêm sản phẩm</a></li>
+                        </ol>
+                    </nav>
+                </div>
+                {{#if noCart}}
+                <div class="container-fluid  mt-100">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body cart">
+                                    <div class="col-sm-12 empty-cart-cls text-center">
+                                        <img src="https://i.imgur.com/dCdflKN.png" width="130" height="130"
+                                            class="img-fluid mb-4 mr-3">
+                                        <h3><strong>Giỏ hàng rỗng</strong></h3>
+                                        <h4>Hãy thêm một vài sản phẩm</h4>
+                                        <a href="/add-cart" class="btn btn-primary cart-btn-transform m-3"
+                                            data-abc="true">Tiếp tục thêm sản phẩm</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{else}}
+                <div>
+                    <div class="row d-flex justify-content-center my-4">
+                        <div class="col-md-7">
+                            <div class="card mb-4">
+                                <div style="background-color: #CCCC00;" class="card-header py-3">
+                                    <h5 class="mb-0">Có - {{count}} sản phẩm</h5>
+                                </div>
+                                <div class="card-body">
+                                    {{#each cart}}
+                                    <!-- Single item -->
+                                    <div class="row">
+                                        <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+                                            <!-- Image -->
+                                            <div>
+                                                <img src="{{this.cart.product_id.image}}" class="w-100" />
+                                            </div>
+                                            <!-- Image -->
+                                        </div>
+
+                                        <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
+                                            <!-- Data -->
+                                            <p><strong>{{this.cart.product_id.name}}</strong></p>
+                                            <p>{{this.cart.product_id.description}}</p>
+                                            <p>Số lượng: {{this.cart.quantity}}</p>
+                                            <!-- Data -->
+                                            <button class="badge badge-danger"
+                                                onclick="deleteCart('{{this.cart._id}}')">
+                                                <i class="mdi mdi-trash-can"></i>
+                                            </button>
+                                        </div>
+
+                                        <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                                            <!-- Quantity -->
+                                            <div class="d-flex mb-4" style="max-width: 100px; max-height: 50px">
+                                                <button onclick="minus('{{this.cart._id}}')"
+                                                    class="btn btn-primary px-3">
+                                                    <i class="mdi mdi-minus"></i>
+                                                </button>
+
+                                                <div class="form-control">
+                                                    <p>{{this.cart.quantity}}</p>
+                                                    {{!-- <input value="" class="form-control" /> --}}
+                                                </div>
+
+                                                <button onclick="plus('{{this.cart._id}}')"
+                                                    class="btn btn-primary px-3">
+                                                    <i class="mdi mdi-plus"></i>
+                                                </button>
+                                            </div>
+                                            <!-- Quantity -->
+
+                                            <!-- Price -->
+                                            <p class="text-start text-md-center">
+                                                <strong>{{this.price}}</strong>
+                                            </p>
+                                            <!-- Price -->
+                                        </div>
+                                    </div>
+                                    <!-- Single item -->
+                                    <hr class="my-4" />
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <form class="card mb-4" method="post" action="/checkout">
+                                <div class="card-header py-3" style="background-color: #CCCC00;">
+                                    <h5 class="mb-0">Thanh toán</h5>
+                                </div>
+                                <div class="card-body" style="background-color: #FFFFCC;">
+                                    <div class="form-outline form-white mb-4">
+                                        <input type="text" id="typeName" name="customer"
+                                            class="form-control form-control-lg" placeholder="Tên" />
+                                    </div>
+                                    <div class="form-outline form-white mb-4">
+                                        <input type="number" id="typeText" class="form-control form-control-lg"
+                                            name="phone" placeholder="Số điện thoại" />
+                                    </div>
+                                    <div class="form-outline form-white mb-4">
+                                        <input type="text" id="typeText" class="form-control form-control-lg"
+                                            name="discountName" placeholder="Mã giảm giá" />
+                                    </div>
+                                    {{#if error}}
+                                    <div class="alert alert-danger">
+                                        <p>{{error}}</p>
+                                    </div>
+                                    {{/if}}
+                                    <hr class="my-4" />
+                                    <ul class="list-group list-group-flush">
+                                        <li style="background-color: #FFFFCC;"
+                                            class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                                            Tạm tính
+                                            <span>{{tongtien}}</span>
+                                        </li>
+                                        <li style="background-color: #FFFFCC;"
+                                            class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                                            <div>
+                                                <strong>Tổng tiền</strong>
+                                            </div>
+                                            <span><strong>{{tongtien}}</strong></span>
+                                        </li>
+                                    </ul>
+
+                                    <button type="submit" class="btn btn-info btn-lg btn-block">
+                                        Go to checkout
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const checkout = () => {
+        window.location.href = `/checkout`
+    }
+    const deleteCart = (id) => {
+        window.location.href = `/delete-cart/${id}`
+    }
+    const minus = (id) => {
+        window.location.href = `/cart/minus/${id}`
+    }
+    const plus = (id) => {
+        window.location.href = `/cart/plus/${id}`
+    }
+</script>

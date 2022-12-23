@@ -1,0 +1,125 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" type="text/css" href="/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/createCart.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="/images/favicon.ico" />
+</head>
+<div class="container-scroller">
+    {{> navbar}}
+    <div class="container-fluid page-body-wrapper">
+        {{> sidebar}}
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="page-header">
+                    <div id="menu">
+                        <ul>
+                            <li>
+                                <h3 class="page-title">
+                                    <span class="page-title-icon bg-gradient-info text-white me-2">
+                                        <i class="mdi mdi-clipboard-plus"></i>
+                                    </span> Sản phẩm
+                                </h3>
+                            </li>
+                            <li>
+                                <div class="search-field d-none d-md-block">
+                                    <a class="btn btn-light  dropdown-toggle" data-toggle="dropdown" href="#">
+                                        Loại</a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <li><a class="dropdown-item" href="/add-cart">Tất cả</a></li>
+                                        {{#each categories}}
+                                        <li><a class="dropdown-item" href="/add-cart/{{this._id}}">{{this.name}}</a>
+                                        </li>
+                                        {{/each}}
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <button style="width: 150px; height: 40px" class="badge badge-info"
+                                onclick="goListCart('{{user._id}}')">
+                                Go to checkout <i class="mdi mdi-cart menu-icon"></i>
+                            </button>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="row">
+                    {{#each products}}
+                    <div class="col-lg-3" style="margin-bottom: 20px;">
+                        <div class="card-group">
+                            <div class="card">
+                                <img src="{{this.product.image}}" height="100" resizeMode="contain" />
+                                <h5 style="padding-left: 10px; padding-top: 10px">{{this.product.name}}</h5>
+                                <div class="product-info">
+                                    <p>Số lượng: {{this.product.quantity}}</p>
+                                    <p style="color: red;">{{this.productPrice}}</p>
+                                    <button class="badge badge-success" onclick="goAddCart('{{this.product._id}}')"><i
+                                            class="mdi mdi-cart menu-icon"></i></button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{{#if success}}
+<input type="hidden" id="successful" value="{{success}}" />
+{{/if}}
+
+<script>
+    const goAddCart = (id) => {
+        Swal.fire({
+            title: 'Nhập số lượng',
+            html: `<form id="form" method="post" action="/cart/add/${id}">
+                        <input type="number" id="quantity" name="quantity" class="swal2-input" placeholder="Số lượng" />
+                    </form>
+                    `,
+            focusConfirm: false,
+            preConfirm: () => {
+                const quantity = Swal.getPopup().querySelector('#quantity').value
+                if (!quantity) {
+                    Swal.showValidationMessage(`Vui lòng nhập số lượng`)
+                }
+                return { quantity: quantity }
+            }
+        }).then((result) => {
+            $(document).ready(function () {
+                $("form").submit();
+            })
+        })
+    }
+
+    const goListCart = () => {
+        window.location.href = `/list-cart`
+    }
+
+    window.onload = function () {
+        var success = document.getElementById("successful").value;
+        if (success) {
+            let timerInterval
+            Swal.fire({
+                title: 'Thành công!',
+                timer: 1000,
+                didOpen: () => {
+                    const b = Swal.getHtmlContainer().querySelector('b')
+                    timerInterval = setInterval(() => {
+                        b.textContent = Swal.getTimerLeft()
+                    }, 100)
+                },
+                willClose: () => {
+                    clearInterval(timerInterval)
+                }
+            })
+        }
+    }
+
+
+</script>

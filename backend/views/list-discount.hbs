@@ -1,0 +1,122 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" type="text/css" href="/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="/images/favicon.ico" />
+</head>
+<div class="container-scroller">
+    {{> navbar}}
+    <div class="container-fluid page-body-wrapper">
+        {{> sidebar}}
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="page-header">
+                    <h3 class="page-title">
+                        <span class="page-title-icon bg-gradient-info text-white me-2">
+                            <i class="mdi mdi-format-list-bulleted"></i>
+                        </span> Danh sách mã giảm giá
+                    </h3>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/add-discount">Thêm mới</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Mã giảm giá</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Mã giảm giá</h4>
+                                {{#if success}}
+                                <input type="hidden" id="successful" value="{{success}}" />
+                                {{/if}}
+                                <br />
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Thông tin</th>
+                                            <th>Mã giảm giá</th>  
+                                            <th>Sản phẩm</th>  
+                                            <th>Giảm</th>                                    
+                                            <th>Chỉnh sửa</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each discounts}}
+                                        <tr>
+                                            <td>{{this.title}}</td>
+                                            <td> {{this.discount}} </td>
+                                            {{#if this.all}}
+                                            <td>Tất cả sản phẩm</td>
+                                            {{/if}}
+                                            {{#if category_id}}
+                                            <td>Sản phẩm thuộc: {{this.category_id.name}}</td>
+                                            {{/if}}
+                                            {{#if product_id}}
+                                            <td>{{this.product_id.name}}</td>
+                                            {{/if}}
+                                            <td>{{percent}}%</td>
+                                            <td>
+                                                <button class="badge badge-warning"
+                                                    onclick="goEdit('{{this._id}}')">Chỉnh sửa</button>
+                                                <button class="badge badge-danger"
+                                                    onclick="goDelete('{{this._id}}')">Xóa</button>
+                                            </td>
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //delete
+    const goDelete = (id) => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = `/delete-discount/${id}`
+            }
+        })
+    }
+    //edit
+    const goEdit = (id) => {
+        window.location.href = `/edit-discount/${id}`
+    }
+
+    window.onload = function () {
+        var successful = document.getElementById("successful").value;
+        if (successful) {
+            let timerInterval
+            Swal.fire({
+                title: 'Chỉnh sửa thành công!',
+                timer: 1000,
+                didOpen: () => {
+                    const b = Swal.getHtmlContainer().querySelector('b')
+                    timerInterval = setInterval(() => {
+                        b.textContent = Swal.getTimerLeft()
+                    }, 100)
+                },
+                willClose: () => {
+                    clearInterval(timerInterval)
+                }
+            })
+        }
+    }
+
+</script>

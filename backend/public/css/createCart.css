@@ -1,0 +1,16 @@
+.product-info {
+  position: relative;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: 10px;
+  align-items: center
+}
+
+#menu>ul>li {
+  display: inline-block;
+  width: 200px;
+  height: 40px;
+  line-height: 40px;
+  margin-left: -5px;
+}

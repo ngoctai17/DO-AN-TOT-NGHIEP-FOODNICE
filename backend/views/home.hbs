@@ -1,0 +1,198 @@
+<head>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" type="text/css" href="/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="/images/favicon.ico" />
+</head>
+
+<div class="container-scroller">
+    {{> navbar}}
+    <div class="container-fluid page-body-wrapper">
+        {{> sidebar}}
+        <div class="main-panel">
+            {{#each statistical}}
+            <input type="hidden" id="statistical-data{{@index}}" value="{{this}}" />
+            {{/each}}
+            {{#each topFive}}
+            <input type="hidden" id="topFive-name{{@index}}" value="{{this.name}}" />
+            <input type="hidden" id="topFive-quantity{{@index}}" value="{{this.quantity_purchased}}" />
+            {{/each}}
+            <div class="content-wrapper">
+                <div class="page-header">
+                    <h3 class="page-title">
+                        <span class="page-title-icon bg-gradient-info text-white me-2">
+                            <i class="mdi mdi-home"></i>
+                        </span> Trang chủ
+                    </h3>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 stretch-card grid-margin">
+                        <div class="card bg-gradient-danger card-img-holder text-white">
+                            <div class="card-body">
+                                <h4 class="font-weight-normal mb-3">Doanh thu trong tháng <i
+                                        class="mdi mdi-chart-line mdi-24px float-right"></i>
+                                </h4>
+                                <h2 class="mb-5">$ {{revenue}}</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 stretch-card grid-margin">
+                        <div class="card bg-gradient-info card-img-holder text-white">
+                            <div class="card-body">
+                                <h4 class="font-weight-normal mb-3">Món bán chạy nhất <i
+                                        class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
+                                </h4>
+                                <h2 class="mb-5">{{topProduct.name}}</h2>
+                                <p>Số lượng đã bán: {{topProduct.quantity_purchased}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-7 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="clearfix">
+                                    <h4 class="card-title float-left">Biểu đồ</h4>
+                                    <div id="visit-sale-chart-legend"
+                                        class="rounded-legend legend-horizontal legend-top-right float-right"></div>
+                                </div>
+                                <canvas id="myChart" class="mt-12"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="clearfix">
+                                    <h4 class="card-title float-left">Biểu đồ</h4>
+                                    <div id="visit-sale-chart-legend"
+                                        class="rounded-legend legend-horizontal legend-top-right float-right"></div>
+                                </div>
+                                <canvas id="myChart2" class="mt-12"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    //get total month
+    let thang1 = document.getElementById('statistical-data0').value;
+    let thang2 = document.getElementById('statistical-data1').value;
+    let thang3 = document.getElementById('statistical-data2').value;
+    let thang4 = document.getElementById('statistical-data3').value;
+    let thang5 = document.getElementById('statistical-data4').value;
+    let thang6 = document.getElementById('statistical-data5').value;
+    let thang7 = document.getElementById('statistical-data6').value;
+    let thang8 = document.getElementById('statistical-data7').value;
+    let thang9 = document.getElementById('statistical-data8').value;
+    let thang10 = document.getElementById('statistical-data9').value;
+    let thang11 = document.getElementById('statistical-data10').value;
+    let thang12 = document.getElementById('statistical-data11').value;
+
+    //set chart totals
+    let myChart = document.getElementById('myChart');
+    Chart.defaults.global.defaultFontColor = '#000000';
+    let massPopChart = new Chart(myChart, {
+        type: 'bar', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+        data: {
+            labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+            datasets: [{
+                label: 'Thống kê',
+                data: [thang1, thang2, thang3, thang4, thang5, thang6,
+                    thang7, thang8, thang9, thang10, thang11, thang12
+                ],
+                backgroundColor: ['#FFFF33', '#FFCC33', '#FF6699', '#0066CC', '#CC00CC', '#66CC33', '#FFFF33', '#FFCC33', '#FF6699', '#0066CC', '#CC00CC', '#66CC33'
+                ],
+                borderWidth: 1,
+                borderColor: '#777',
+                hoverBorderWidth: 1,
+                hoverBorderColor: '#999999'
+            }]
+        },
+        options: {
+            layout: {
+                padding: {
+                    left: 10,
+                    right: 25,
+                    top: 25,
+                    bottom: 0
+                }
+            },
+            title: {
+                display: true,
+                text: 'Thống kê doanh thu trong năm',
+                fontSize: 25
+            },
+            legend: {
+                display: true,
+                position: 'right',
+                labels: {
+                    fontColor: '#000'
+                }
+            },
+            scales: {
+                xAxes: [{
+                    gridLines: {
+                        color: "rgb(234, 236, 244)",
+                        zeroLineColor: "rgb(234, 236, 244)",
+                        drawBorder: false,
+                        borderDash: [2],
+                        zeroLineBorderDash: [2]
+                    }
+                }]
+            }
+        }
+    });
+
+    //get name top 5
+    let name1 = document.getElementById('topFive-name0').value;
+    let name2 = document.getElementById('topFive-name1').value;
+    let name3 = document.getElementById('topFive-name2').value;
+    let name4 = document.getElementById('topFive-name3').value;
+    let name5 = document.getElementById('topFive-name4').value;
+    //get quantity top 5
+    let quantity1 = document.getElementById('topFive-quantity0').value;
+    let quantity2 = document.getElementById('topFive-quantity1').value;
+    let quantity3 = document.getElementById('topFive-quantity2').value;
+    let quantity4 = document.getElementById('topFive-quantity3').value;
+    let quantity5 = document.getElementById('topFive-quantity4').value;
+    //set chart product
+    let myChart2 = document.getElementById('myChart2');
+    let massPopChart2 = new Chart(myChart2, {
+        type: 'pie', // bar, horizontalBar, pie, line, doughnut, radar, polarArea
+        data: {
+            labels: [name1, name2, name3, name4, name5],
+            datasets: [{
+                data: [quantity1, quantity2, quantity3, quantity4, quantity5],
+                backgroundColor: ['#FFFF33', '#FF6699', '#0066CC', '#CC00CC', '#66CC33'],
+                borderWidth: 1,
+                borderColor: '#777',
+                hoverBorderWidth: 1,
+                hoverBorderColor: '#999999'
+            }]
+        },
+        options: {
+            title: {
+                display: true,
+                text: 'Top 5 món bán chạy',
+                fontSize: 16
+            },
+            legend: {
+                display: true,
+                position: 'left',
+                labels: {
+                    fontColor: '#000'
+                }
+            }
+        }
+    });
+
+</script>

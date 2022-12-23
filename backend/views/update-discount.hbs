@@ -1,0 +1,185 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" type="text/css" href="/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="/images/favicon.ico" />
+</head>
+<div class="container-scroller">
+    {{> navbar}}
+    <div class="container-fluid page-body-wrapper">
+        {{> sidebar}}
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="page-header">
+                    <h3 class="page-title">
+                        <span class="page-title-icon bg-gradient-info text-white me-2">
+                            <i class="mdi mdi-tooltip-edit"></i>
+                        </span> Chỉnh sửa mã giảm giá
+                    </h3>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/list-discount">Danh sách</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Mã giảm giá</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Mã giảm giá</h4>
+                                <br />
+                                <form class="forms-sample" method="post" action="/edit-discount/{{discount._id}}">
+                                    <div class="form-group">
+                                        <label for="exampleInputUsername1">Thông tin</label>
+                                        <input type="text" class="form-control" name="title" value="{{discount.title}}">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Mã giảm giá</label>
+                                                <input type="text" class="form-control" name="discount"
+                                                    value="{{discount.discount}}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">Số lượng mã</label>
+                                                <input type="number" class="form-control" name="quantity"
+                                                    value="{{discount.quantity}}" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label for="exampleInputUsername1">Phần trăm được giảm</label>
+                                                <input type="text" class="form-control" name="percent"
+                                                    value="{{discount.percent}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <br />
+                                                <button class="btn btn-info" id="btnDiscount" data-toggle="dropdown"
+                                                    href="#">Hình thức giảm giá</button>
+                                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                                    <li><a class="dropdown-item" onclick="getAll()">Tất cả sản phẩm</a>
+                                                    </li>
+                                                    <li><a class="dropdown-item" onclick="getCategory()">Giảm theo
+                                                            loại</a>
+                                                    </li>
+                                                    <li><a class="dropdown-item" onclick="getProduct()">Giảm theo sản
+                                                            phẩm</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4" style="display: none;" id="category">
+                                            <div class="form-group">
+                                                <label for="exampleFormControlSelect1">Loại sản phẩm được giảm</label>
+                                                <select class="form-control form-control-lg" name="category_id">
+                                                    {{#if discount.category_id}}
+                                                    <option value="{{discount.category_id._id}}">
+                                                        {{discount.category_id.name}}</option>
+                                                    {{/if}}
+                                                    {{#each categories}}
+                                                    <option value="{{this._id}}">{{this.name}}</option>
+                                                    {{/each}}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4" style="display: none;" id="product">
+                                            <div class="form-group">
+                                                <label for="exampleFormControlSelect1">Sản phẩm được giảm</label>
+                                                <select class="form-control form-control-lg" name="product_id">
+                                                    {{#if discount.product_id}}
+                                                    <option value="{{discount.product_id._id}}">
+                                                        {{discount.product_id.name}}</option>
+                                                    {{/if}}
+                                                    {{#each products}}
+                                                    <option value="{{this._id}}">{{this.name}}</option>
+                                                    {{/each}}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="isAll" name="isAll" value="false" />
+                                    <input type="hidden" id="isCate" name="isCate" value="false" />
+                                    <input type="hidden" id="isProduct" name="isProduct" value="false" />
+                                    <button type="submit" id="submit" class="btn btn-gradient-primary me-2">Chỉnh
+                                        sửa</button>
+                                    <button class="btn btn-light">Hủy</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{#if discount.all}}
+<input type="hidden" id="checkAll" value="{{discount.all}}" />
+{{/if}}
+{{#if discount.category_id}}
+<input type="hidden" id="checkCate" value="{{discount.category_id}}" />
+{{/if}}
+{{#if discount.product_id}}
+<input type="hidden" id="checkProduct" value="{{discount.product_id}}" />
+{{/if}}
+
+<script>
+    const isAll = document.getElementById('checkAll').value;
+    if (isAll) {
+        document.getElementById('isAll').value = true;
+        document.getElementById('btnDiscount').innerText = 'Tất cả sản phẩm'
+        document.getElementById('product').style.display = 'none'
+        document.getElementById('category').style.display = 'none'
+    }
+</script>
+<script>
+    const isCate = document.getElementById('checkCate').value;
+    if (isCate) {
+        document.getElementById('isCate').value = true;
+        document.getElementById('btnDiscount').innerText = 'Giảm theo loại'
+        document.getElementById('product').style.display = 'none'
+        document.getElementById('category').style.display = 'block'
+    }
+</script>
+<script>
+    const isProduct = document.getElementById('checkProduct').value;
+    if (isProduct) {
+        document.getElementById('isProduct').value = true;
+        document.getElementById('btnDiscount').innerText = 'Giảm theo sản phẩm'
+        document.getElementById('product').style.display = 'block'
+        document.getElementById('category').style.display = 'none'
+    }
+</script>
+<script>
+    const getAll = () => {
+        document.getElementById('isAll').value = true;
+        document.getElementById('isCate').value = false;
+        document.getElementById('isProduct').value = false;
+        document.getElementById('btnDiscount').innerText = 'Tất cả sản phẩm'
+        document.getElementById('product').style.display = 'none'
+        document.getElementById('category').style.display = 'none'
+    }
+    const getCategory = () => {
+        document.getElementById('isAll').value = false;
+        document.getElementById('isCate').value = true;
+        document.getElementById('isProduct').value = false;
+        document.getElementById('btnDiscount').innerText = 'Giảm theo loại'
+        document.getElementById('product').style.display = 'none'
+        document.getElementById('category').style.display = 'block'
+    }
+    const getProduct = () => {
+        document.getElementById('isAll').value = false;
+        document.getElementById('isCate').value = false;
+        document.getElementById('isProduct').value = true;
+        document.getElementById('btnDiscount').innerText = 'Giảm theo sản phẩm'
+        document.getElementById('product').style.display = 'block'
+        document.getElementById('category').style.display = 'none'
+    }
+</script>

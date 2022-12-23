@@ -1,0 +1,58 @@
+<head>
+  <link rel="stylesheet" type="text/css"
+    href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+  <!-- Main css -->
+  <link rel="stylesheet" type="text/css" href="/css/login.css">
+</head>
+<div class="main">
+  <!-- Sing in  Form -->
+  <section class="sign-in">
+    <div class="container">
+      <div class="signin-content">
+        <div class="signin-image">
+          <figure><img src="/images/signin-image.jpg" alt="sing up image"></figure>
+          <a href="/send" class="signup-image-link">Forgot Password</a>
+        </div>
+        {{#if error}}
+        <input type="hidden" id="error" value="{{error}}" />
+        {{/if}}
+        <div class="signin-form">
+          <h2 class="form-title">Sign in</h2>
+          <form id="form" method="POST" class="register-form" action="/login">
+            <div class="form-group">
+              <label><i class="fa fa-envelope"></i></label>
+              <input type="email" name="email" placeholder="Your Email" required/>
+            </div>
+            <div class="form-group">
+              <label><i class="fa fa-lock"></i></label>
+              <input type="password" name="password" placeholder="Password" required/>
+            </div>
+            <div class="form-group form-button">
+              <input type="submit" class="form-submit" />
+            </div>
+          </form>
+          {{!-- <div class="g-signin2" data-onsuccess="onSignIn"></div>
+          <div class="data">
+            <div id="name"></div>
+            <div id="email"></div>
+          </div> --}}
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  window.onload = function () {
+    var error = document.getElementById("error").value;
+    if (error) {
+      Swal.fire({
+        icon: 'error',
+        text: 'Thông tin không đúng!',
+      })
+    }
+  }
+</script>

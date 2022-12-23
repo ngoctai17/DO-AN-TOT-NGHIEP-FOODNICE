@@ -1,0 +1,38 @@
+<nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+  <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+    <a class="navbar-brand brand-logo" href="/home">
+      <img src="/images/logo.jpg" style="width: 80px;" />
+    </a>
+  </div>
+  <div class="navbar-menu-wrapper d-flex align-items-stretch">
+    <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+      <span class="mdi mdi-menu"></span>
+    </button>
+    {{!-- search --}}
+    <div class="search-field d-none d-md-block">
+      <form class="d-flex align-items-center h-100" method="post" action="/search">
+        <div class="input-group">
+          <input type="text" class="form-control bg-transparent border-0" name="name" placeholder="Tìm kiếm sản phẩm">
+          <div class="input-group-prepend bg-transparent">
+            <i class="input-group-text border-0 mdi mdi-magnify"></i>
+          </div>
+        </div>
+      </form>
+    </div>
+    {{!-- end-search --}}
+    <ul class="navbar-nav navbar-nav-right">
+      <li class="nav-item nav-profile dropdown">
+        <a class="nav-link">
+          <div class="nav-profile-img" onclick="goProfile()">
+            <img src="{{user.image}}" alt="image">
+            <span class="availability-status online"></span>
+          </div>
+          <div class="nav-profile-text" onclick="goProfile()">
+            <p class="mb-1 text-black">Mr. {{user.name}}</p>
+          </div>
+          <i onclick="thongBao()" style="margin-left: 10px;" class="mdi mdi-bell-ring-outline"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>

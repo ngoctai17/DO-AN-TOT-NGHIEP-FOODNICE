@@ -1,0 +1,134 @@
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+  <ul class="nav">
+    <li class="nav-item nav-profile">
+      <a href="/profile" class="nav-link">
+        <div class="nav-profile-image">
+          <img src="{{user.image}}" alt="profile">
+          <span class="login-status online"></span>
+          <!--change to offline or busy as needed-->
+        </div>
+        <div class="nav-profile-text d-flex flex-column">
+          <span class="font-weight-bold mb-2">{{user.name}}</span>
+          <span class="text-secondary text-small">{{user.role}} Manager</span>
+        </div>
+        <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/home">
+        <span class="menu-title">Trang chủ</span>
+        <i class="mdi mdi-home menu-icon"></i>
+      </a>
+      <div class="border-bottom" />
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="collapse" href="#add" aria-expanded="false" aria-controls="ui-basic">
+        <span class="menu-title">Thêm mới sản phẩm</span>
+        <i class="menu-arrow"></i>
+        <i class="mdi mdi-crosshairs-gps menu-icon"></i>
+      </a>
+      <div class="collapse" id="add">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="/addproduct">Thêm sản phẩm</a></li>
+          <li class="nav-item"> <a class="nav-link" href="/addcategory">Thêm loại</a></li>
+        </ul>
+      </div>
+      <div class="border-bottom" />
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="collapse" href="#list" aria-expanded="false" aria-controls="ui-basic">
+        <span class="menu-title">Danh sách</span>
+        <i class="menu-arrow"></i>
+        <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+      </a>
+      <div class="collapse" id="list">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="/list-product">Danh sách sản phẩm</a></li>
+          <li class="nav-item"> <a class="nav-link" href="/list-category">Danh sách loại</a></li>
+        </ul>
+      </div>
+      <div class="border-bottom" />
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="collapse" href="#user" aria-expanded="false" aria-controls="general-pages">
+        <span class="menu-title">Người dùng</span>
+        <i class="menu-arrow"></i>
+        <i class="mdi mdi-medical-bag menu-icon"></i>
+      </a>
+      <div class="collapse" id="user">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="/register"> Thêm mới quản trị viên </a></li>
+          <li class="nav-item"> <a class="nav-link" href="/list-admin"> Danh sách quản trị viên </a></li>
+          <li class="nav-item"> <a class="nav-link" href="/list-user"> Danh sách người dùng </a></li>
+        </ul>
+      </div>
+      <div class="border-bottom" />
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="collapse" href="#discount" aria-expanded="false" aria-controls="general-pages">
+        <span class="menu-title">Mã giảm giá</span>
+        <i class="menu-arrow"></i>
+        <i class="mdi mdi-sale menu-icon"></i>
+      </a>
+      <div class="collapse" id="discount">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="/add-discount"> Thêm mã giảm giá </a></li>
+          <li class="nav-item"> <a class="nav-link" href="/list-discount"> Danh sách mã </a></li>
+        </ul>
+      </div>
+      <div class="border-bottom" />
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/add-cart">
+        <span class="menu-title">Tạo đơn hàng</span>
+        <i class="mdi mdi-cart menu-icon"></i>
+      </a>
+      <div class="border-bottom" />
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/order">
+        <span class="menu-title" id="clickRemoveSub">Danh sách đơn hàng <sup style="color: red;" id="sub"></sup></span>
+        <i class="mdi mdi-view-list menu-icon"></i>
+      </a>
+      <div class="border-bottom" />
+      <div class="border-bottom" />
+      <div class="border-bottom" />
+      <div class="border-bottom" />
+      <div class="border-bottom" />
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="/logout">
+        <span class="menu-title">Đăng xuất</span>
+        <i class="mdi mdi-logout-variant menu-icon"></i>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<script>
+  let sub = 0;
+  if (sub > 0) {
+    document.getElementById('sub').innerText = '(' + sub + ')';
+  }
+  const socket = io();
+  socket.on('server_message', (msg) => {
+    sub = sub + 1;
+    document.getElementById('sub').innerText = '(' + sub + ')';
+    const notification = new Notification(
+      'Bạn có ' + sub + ' đơn hàng mới',
+      {
+        body: 'Xem chi tiết.',
+      }
+    );
+    notification.onclick = function () {
+      window.location.href = `/order-detail/${msg}`;
+    }
+  })
+
+  document.getElementById('clickRemoveSub').addEventListener('click', function(){
+    sub = 0;
+    document.getElementById('sub').innerText = null;
+  })
+
+  
+</script>

@@ -1,0 +1,270 @@
+<head>
+    <link rel="stylesheet" type="text/css" href="/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" type="text/css" href="/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="/images/favicon.ico" />
+</head>
+<div class="container-scroller">
+    {{> navbar}}
+    <div class="container-fluid page-body-wrapper">
+        {{> sidebar}}
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="page-header">
+                    <h3 class="page-title">
+                        <span class="page-title-icon bg-gradient-info text-white me-2">
+                            <i class="mdi mdi-format-list-bulleted"></i>
+                        </span> Danh sách hóa đơn
+                    </h3>
+                    {{!-- search --}}
+                    <div class="search-field d-none d-md-block">
+                        <a style="padding: 10px;" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                            href="#">
+                            Hóa đơn theo tháng</a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                            <li><a class="dropdown-item" href="/order">Tất cả</a></li>
+                            <li><a class="dropdown-item" href="/getOrderByMonth/1">Tháng 1</a></li>
+                            <li><a class="dropdown-item" href="/getOrderByMonth/2">Tháng 2</a></li>
+                            <li><a class="dropdown-item" href="/getOrderByMonth/3">Tháng 3</a></li>
+                            <li><a class="dropdown-item" href="/getOrderByMonth/4">Tháng 4</a></li>
+                            <li><a class="dropdown-item" href="/getOrderByMonth/5">Tháng 5</a></li>
+                            <li><a class="dropdown-item" href="/getOrderByMonth/6">Tháng 6</a></li>
+                            <li><a class="dropdown-item" href="/getOrderByMonth/7">Tháng 7</a></li>
+                            <li><a class="dropdown-item" href="/getOrderByMonth/8">Tháng 8</a></li>
+                            <li><a class="dropdown-item" href="/getOrderByMonth/9">Tháng 9</a></li>
+                            <li><a class="dropdown-item" href="/getOrderByMonth/10">Tháng 10</a></li>
+                            <li><a class="dropdown-item" href="/getOrderByMonth/11">Tháng 11</a></li>
+                            <li><a class="dropdown-item" href="/getOrderByMonth/12">Tháng 12</a></li>
+                        </ul>
+                    </div>
+                    {{!-- end-search --}}
+                </div>
+
+                {{#if noSearch}}
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Chờ xử lý</h4>
+                                <br />
+                                <div style="overflow:auto; height: 300px">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Khách hàng</th>
+                                                <th>Địa chỉ</th>
+                                                <th>Số điện thoại</th>
+                                                <th>Tổng tiền</th>
+                                                <th>Ngày mua</th>
+                                                <th>Trạng thái</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#each dangXuLy}}
+                                            <tr onclick="goDetail('{{this.order._id}}')">
+                                                <td> {{this.order.customer}} </td>
+                                                <td> {{this.order.address}} </td>
+                                                <td> {{this.order.phone}} </td>
+                                                <td> {{this.totals}} </td>
+                                                <td> {{this.date}} </td>
+                                                {{#if this.order.status}}
+                                                <td style="color:green;"> Đã thanh toán </td>
+                                                {{else}}
+                                                <td style="color:#DD0000;"> Chưa thanh toán </td>
+                                                {{/if}}
+                                            </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Đang giao hàng</h4>
+                                <br />
+                                <div style="overflow:auto; height: 300px">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Khách hàng</th>
+                                                <th>Địa chỉ</th>
+                                                <th>Số điện thoại</th>
+                                                <th>Tổng tiền</th>
+                                                <th>Ngày mua</th>
+                                                <th>Trạng thái</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#each dangGiaoHang}}
+                                            <tr onclick="goDetail('{{this.order._id}}')">
+                                                <td> {{this.order.customer}} </td>
+                                                <td> {{this.order.address}} </td>
+                                                <td> {{this.order.phone}} </td>
+                                                <td> {{this.totals}} </td>
+                                                <td> {{this.date}} </td>
+                                                {{#if this.order.status}}
+                                                <td style="color:green;"> Đã thanh toán </td>
+                                                {{else}}
+                                                <td style="color:#DD0000;"> Chưa thanh toán </td>
+                                                {{/if}}
+                                            </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Đơn đã hoàn thành</h4>
+                                <br />
+                                <div style="overflow:auto; height: 300px">
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Khách hàng</th>
+                                                <th>Địa chỉ</th>
+                                                <th>Số điện thoại</th>
+                                                <th>Tổng tiền</th>
+                                                <th>Ngày mua</th>
+                                                <th>Trạng thái</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#each listOrder}}
+                                            <tr onclick="goDetail('{{this.order._id}}')">
+                                                <td> {{this.order.customer}} </td>
+                                                <td> {{this.order.address}} </td>
+                                                <td> {{this.order.phone}} </td>
+                                                <td> {{this.totals}} </td>
+                                                <td> {{this.date}} </td>
+                                                {{#if this.order.status}}
+                                                <td style="color:green;"> Đã thanh toán </td>
+                                                {{else}}
+                                                <td style="color:#DD0000;"> Chưa thanh toán </td>
+                                                {{/if}}
+                                            </tr>
+                                            {{/each}}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+                {{#if search}}
+                <div class="row">
+                    <div class="col-lg-12 grid-margin stretch-card">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Đơn đã hoàn thành</h4>
+                                <br />
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Khách hàng</th>
+                                            <th>Địa chỉ</th>
+                                            <th>Số điện thoại</th>
+                                            <th>Tổng tiền</th>
+                                            <th>Ngày mua</th>
+                                            <th>Trạng thái</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each arr}}
+                                        <tr onclick="goDetail('{{this.order._id}}')">
+                                            <td> {{this.order.customer}} </td>
+                                            <td> {{this.order.address}} </td>
+                                            <td> {{this.order.phone}} </td>
+                                            <td> {{this.totals}} </td>
+                                            <td> {{this.date}} </td>
+                                            {{#if this.order.status}}
+                                            <td style="color:green;"> Đã thanh toán </td>
+                                            {{else}}
+                                            <td style="color:#DD0000;"> Chưa thanh toán </td>
+                                            {{/if}}
+                                        </tr>
+                                        {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/if}} 
+                {{#if errorSearch}}
+                <div class="container-fluid  mt-100">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-body cart">
+                                    <div class="col-sm-12 empty-cart-cls text-center">
+                                        <img src="https://i.imgur.com/dCdflKN.png" width="130" height="130"
+                                            class="img-fluid mb-4 mr-3">
+                                        <h3><strong>Không có hóa đơn nào</strong></h3>
+                                        <h4>Tháng này không hoạt động</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const goDetail = (id) => {
+        window.location.href = `/order-detail/${id}`
+    }
+    const goPay = (id) => {
+        Swal.fire({
+            title: 'Xác nhận giao hàng?',
+            text: "Khách hàng đã thanh toán!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, pay it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = `/pay/${id}/1`
+            }
+        })
+    }
+    window.onload = function () {
+        var successful = document.getElementById("successful").value;
+        if (successful) {
+            let timerInterval
+            Swal.fire({
+                title: 'Thành công!',
+                timer: 1000,
+                didOpen: () => {
+                    const b = Swal.getHtmlContainer().querySelector('b')
+                    timerInterval = setInterval(() => {
+                        b.textContent = Swal.getTimerLeft()
+                    }, 100)
+                },
+                willClose: () => {
+                    clearInterval(timerInterval)
+                }
+            })
+        }
+    }
+</script>
