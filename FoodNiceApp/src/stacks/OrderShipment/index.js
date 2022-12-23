@@ -25,7 +25,6 @@ import axios from 'axios';
 import { useScrollToTop } from '@react-navigation/native';
 import { KeyboardScrollUpForms, useForm } from '../../utils';
 import AwesomeAlert from 'react-native-awesome-alerts';
-import FlashMessage, { showMessage } from 'react-native-flash-message';
 
 function currencyFormat(num) {
   return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') + ' VND'
@@ -38,7 +37,8 @@ const OrderShipment = ({ navigation, route }) => {
   const [isTienMat, setIsTienMat] = useState(true);
   const [isPaypal, setIsPaypal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-  const [showAlertLoad, setShowAlertLoad] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+  const [message, setMessage] = useState();
 
   const [form] = useForm({
     user_id: '',
@@ -158,10 +158,6 @@ const OrderShipment = ({ navigation, route }) => {
       if (form.status) {
         navigation.navigate('Payment', form)
       } else {
-        setShowAlertLoad(true)
-        setTimeout(() => {
-          setShowAlertLoad(false);
-        }, 2000)
         getData('user').then(user => {
           axios({
             method: 'POST',
@@ -181,14 +177,12 @@ const OrderShipment = ({ navigation, route }) => {
             }
           })
             .then(res => {
-              setShowAlertLoad(false)
               if (res.data.message) {
-                console.log(res.data.message)
-                showMessage({
-                  message: '🚨',
-                  type: 'danger',
-                  description: res.data.message,
-                })
+                setMessage(res.data.message)
+                setShowMessage(true)
+                setTimeout(() => {
+                  setShowMessage(false)
+              }, 1500)
               } else {
                 navigation.navigate('Success')
               }
@@ -370,15 +364,14 @@ const OrderShipment = ({ navigation, route }) => {
         }}
       />
       <AwesomeAlert
-        show={showAlertLoad}
-        showProgress={true}
+        show={showMessage}
+        showProgress={false}
+        title={message}
+        titleStyle={{ color: 'red' }}
+        closeOnTouchOutside={false}
+        closeOnHardwareBackPress={false}
         showCancelButton={false}
         showConfirmButton={false}
-      />
-      <FlashMessage
-        textStyle={{ fontFamily: 'CircularStd-Bold' }}
-        hideOnPress={true}
-        duration={2000}
       />
     </SafeAreaView>
   );
