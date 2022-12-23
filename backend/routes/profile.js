@@ -21,7 +21,7 @@ router.post('/profile/:id/edit', [isLogin, upload.single('image')], async functi
     let image = user.image;
     let password = user.password;
     if (file) {
-        image = `https://doantotnghiepfood.herokuapp.com/images/${file.filename}`;
+        image = `http:/192.168.0.69:3000/images/${file.filename}`;
     }
     body.password = password;
     body = { ...body, image };

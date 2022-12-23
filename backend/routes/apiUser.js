@@ -61,7 +61,7 @@ router.post('/login', async function (req, res, next) {
 //Register User
 router.post('/register', async function (req, res, next) {
     const { body } = req;
-    body.image = 'https://doantotnghiepfood.herokuapp.com/images/image-1669710148885-709896471-avatar.jpg';
+    body.image = 'http:/192.168.0.69:3000/images/image-1669710148885-709896471-avatar.jpg';
     const result = await userController.register(body);
     if (result) {
         res.status(200).json({ status: true });

@@ -25,22 +25,6 @@
                                 <img class="rounded-circle mt-5" width="150px" src="{{user.image}}">
                                 <br />
                                 <h4 class="font-weight-bold">{{user.name}}</h4>
-                                <span class="text-black-50">
-                                    {{user.email}}
-                                    {{#if user.statusEmail}}
-                                    {{else}}
-                                    <a href="/accuracy/{{user.email}}">Xác thực</a>
-                                    {{/if}}
-                                </span>
-                                {{#if checkSendMail}}
-                                <form method="POST" action="/accuracy/{{user.email}}" class="col-md-12" style="margin-top: 15px;">
-                                    <input type="number" class="form-control" name="OTP" placeholder="Nhập OTP">
-                                    <button type="submit" style="margin-top: 5px; width: 100%" class="btn btn-info">Xác nhận</button>
-                                </form>
-                                {{/if}}
-                                {{#if err}}
-                                <p style="margin-top: 10px; color: red">{{err}}</p>
-                                {{/if}}
                             </div>
                         </div>
                         <div class="col-md-5 border-right">
