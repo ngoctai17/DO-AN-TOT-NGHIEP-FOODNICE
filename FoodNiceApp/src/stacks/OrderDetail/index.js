@@ -14,6 +14,7 @@ import {
 } from '../../components';
 import { getData } from '../../utils';
 import axios from 'axios';
+import BaseUrl from '../../utils/config/index'
 
 function currencyFormat(num) {
   return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') + ' VND'
@@ -136,13 +137,13 @@ const OrderDetail = ({ navigation, route }) => {
             onPress={() => getData('user').then(user => {
               axios({
                 method: 'GET',
-                url: `http://192.168.100.101:3000/api/order/update/${order._id}`,
+                url: `${BaseUrl}/api/order/update/${order._id}`,
                 headers: { authorization: `Bearer ${user.access_token}` }
               })
                 .then(res => {
                   axios({
                     method: 'GET',
-                    url: `http://192.168.100.101:3000/api/order/get/${user._id}`,
+                    url: `${BaseUrl}/api/order/get/${user._id}`,
                     headers: { authorization: `Bearer ${user.access_token}` }
                   })
                     .then(res => {

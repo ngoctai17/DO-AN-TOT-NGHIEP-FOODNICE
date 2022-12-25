@@ -16,6 +16,7 @@ import axios from 'axios';
 import { KeyboardScrollUpForms, useForm } from '../../utils';
 import { getData } from '../../utils';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import BaseUrl from '../../utils/config/index'
 
 function currencyFormat(num) {
   return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') + ' VND'
@@ -35,7 +36,7 @@ const Comment = ({ navigation, route }) => {
     getData('user').then(user => {
       axios({
         method: 'POST',
-        url: `http://192.168.100.101:3000/api/comment/add`,
+        url: `${BaseUrl}/api/comment/add`,
         headers: {
           'authorization': `Bearer ${user.access_token}`,
           'Content-Type': 'application/json',

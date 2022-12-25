@@ -1,10 +1,11 @@
 import axios from 'axios';
+import BaseUrl from '../utils/config/index'
 
 class UserServices {
   authLogin = async (form) => {
     return await axios({
       method: 'POST',
-      url: 'http://192.168.100.101:3000/api/user/login',
+      url: `${BaseUrl}/api/user/login`,
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -20,7 +21,7 @@ class UserServices {
   authRegister = async (form) => {
     return await axios({
       method: 'POST',
-      url: 'http://192.168.100.101:3000/api/user/register',
+      url: `${BaseUrl}/api/user/register`,
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'

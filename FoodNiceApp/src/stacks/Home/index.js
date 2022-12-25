@@ -19,6 +19,7 @@ import { getData } from '../../utils';
 import ContentLoader, { Rect } from 'react-content-loader/native';
 import axios from 'axios';
 import { useForm } from '../../utils';
+import BaseUrl from '../../utils/config/index'
 
 function currencyFormat(num) {
   return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') + ' VND'
@@ -113,7 +114,7 @@ const Home = () => {
       setData_user(user);
       axios({
         method: 'GET',
-        url: 'http://192.168.100.101:3000/api/products/getAll',
+        url: `${BaseUrl}/api/products/getAll`,
         headers: { authorization: `Bearer ${user.access_token}` }
       })
         .then(res => {
@@ -125,7 +126,7 @@ const Home = () => {
 
       axios({
         method: 'GET',
-        url: 'http://192.168.100.101:3000/api/categories/getAll',
+        url: `${BaseUrl}/api/categories/getAll`,
         headers: { authorization: `Bearer ${user.access_token}` }
       })
         .then(res => {
@@ -141,7 +142,7 @@ const Home = () => {
   const loadProductByCate = async (id) => {
     await axios({
       method: 'GET',
-      url: `http://192.168.100.101:3000/api/products/category/${id}`,
+      url: `${BaseUrl}/api/products/category/${id}`,
       headers: { authorization: `Bearer ${data_user.access_token}` }
     })
       .then(res => {

@@ -18,6 +18,7 @@ import {
 import { useScrollToTop } from '@react-navigation/native';
 import { getData } from '../../utils';
 import axios from 'axios';
+import BaseUrl from '../../utils/config/index'
 
 const Address = ({ navigation, route }) => {
     const ref = useRef();
@@ -28,7 +29,7 @@ const Address = ({ navigation, route }) => {
         getData('user').then(user => {
             axios({
                 method: 'GET',
-                url: `http://192.168.100.101:3000/api/address/getByUser/${user._id}`,
+                url: `${BaseUrl}/api/address/getByUser/${user._id}`,
                 headers: { authorization: `Bearer ${user.access_token}` }
             })
                 .then(res => {
@@ -44,10 +45,10 @@ const Address = ({ navigation, route }) => {
         loadData();
     }, []);
 
-    if (route.params.totals) {
-        check = route.params.totals
-    } else {
-        if (route.params) {
+    if (route.params) {
+        if (route.params.totals) {
+            check = route.params.totals
+        } else {
             loadData()
             route.params = ''
         }

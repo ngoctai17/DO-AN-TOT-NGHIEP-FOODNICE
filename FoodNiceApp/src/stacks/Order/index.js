@@ -20,6 +20,7 @@ import { useScrollToTop } from '@react-navigation/native';
 import { getData } from '../../utils';
 import axios from 'axios';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import BaseUrl from '../../utils/config/index'
 
 function currencyFormat(num) {
   return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') + ' VND'
@@ -45,7 +46,7 @@ const Order = ({ navigation, route }) => {
     getData('user').then(user => {
       axios({
         method: 'GET',
-        url: `http://192.168.100.101:3000/api/order/get/${user._id}`,
+        url: `${BaseUrl}/api/order/get/${user._id}`,
         headers: { authorization: `Bearer ${user.access_token}` }
       })
         .then(res => {
@@ -86,13 +87,13 @@ const Order = ({ navigation, route }) => {
               getData('user').then(user => {
                 axios({
                   method: 'GET',
-                  url: `http://192.168.100.101:3000/api/order/update/${item._id}`,
+                  url: `${BaseUrl}/api/order/update/${item._id}`,
                   headers: { authorization: `Bearer ${user.access_token}` }
                 })
                   .then(res => {
                     axios({
                       method: 'GET',
-                      url: `http://192.168.100.101:3000/api/order/get/${user._id}`,
+                      url: `${BaseUrl}/api/order/get/${user._id}`,
                       headers: { authorization: `Bearer ${user.access_token}` }
                     })
                       .then(res => {

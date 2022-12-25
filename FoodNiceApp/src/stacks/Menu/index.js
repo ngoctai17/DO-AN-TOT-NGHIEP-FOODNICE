@@ -11,6 +11,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { getData } from '../../utils';
 import axios from 'axios';
+import BaseUrl from '../../utils/config/index'
 
 const Menu = () => {
     const { width } = useWindowDimensions();
@@ -21,7 +22,7 @@ const Menu = () => {
         getData('user').then(user => {
             axios({
                 method: 'GET',
-                url: 'http://192.168.100.101:3000/api/categories/getAll',
+                url: `${BaseUrl}/api/categories/getAll`,
                 headers: { authorization: `Bearer ${user.access_token}` }
             })
                 .then(res => {

@@ -17,6 +17,7 @@ import {
     useStripe,
 } from '@stripe/stripe-react-native';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import BaseUrl from '../../utils/config/index'
 
 function currencyFormat(num) {
     return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') + ' VND';
@@ -29,7 +30,7 @@ const Payment = ({ navigation, route }) => {
 
     async function getStripeApiKey() {
         const { data } = await axios.get(
-            'http://192.168.100.101:3000/api/payment/stripeapikey',
+            `${BaseUrl}/api/payment/stripeapikey`,
         );
         setPublishableKey(data.stripeApiKey);
     }
@@ -64,7 +65,7 @@ const Payment = ({ navigation, route }) => {
             },
         };
         const { data } = await axios.post(
-            'http://192.168.100.101:3000/api/payment/process',
+            `${BaseUrl}/api/payment/process`,
             paymentData,
             config,
         );
@@ -99,7 +100,7 @@ const Payment = ({ navigation, route }) => {
             getData('user').then(user => {
                 axios({
                     method: 'POST',
-                    url: 'http://192.168.100.101:3000/api/order/checkout',
+                    url: `${BaseUrl}/api/order/checkout`,
                     headers: { authorization: `Bearer ${user.access_token}` },
                     data: order,
                 })

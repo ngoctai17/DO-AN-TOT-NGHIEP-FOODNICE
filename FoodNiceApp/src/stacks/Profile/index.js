@@ -17,6 +17,7 @@ import axios from 'axios';
 import { useScrollToTop } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import FlashMessage, { showMessage } from 'react-native-flash-message';
+import BaseUrl from '../../utils/config/index'
 
 const infoHeight = 364.0;
 
@@ -56,7 +57,7 @@ const Profile = ({ navigation }) => {
         getData('user').then(user => {
             axios({
                 method: 'GET',
-                url: `http://192.168.100.101:3000/api/user/profile/${user._id}`,
+                url: `${BaseUrl}/api/user/profile/${user._id}`,
                 headers: { authorization: `Bearer ${user.access_token}` }
             })
                 .then(res => {

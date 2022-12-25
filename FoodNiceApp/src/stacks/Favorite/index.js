@@ -10,6 +10,7 @@ import {
 import { CardImageTextButton, Space, NavHeader } from '../../components';
 import axios from 'axios';
 import { getData } from '../../utils';
+import BaseUrl from '../../utils/config/index'
 
 const numColumns = 2;
 
@@ -20,7 +21,7 @@ const Favorite = ({ route, navigation }) => {
     getData('user').then(user => {
       axios({
         method: 'GET',
-        url: `http://192.168.100.101:3000/api/favorite/get/${user._id}`,
+        url: `${BaseUrl}/api/favorite/get/${user._id}`,
         headers: { authorization: `Bearer ${user.access_token}` }
       })
         .then(res => {

@@ -18,6 +18,7 @@ import { KeyboardScrollUpForms, useForm } from '../../utils';
 import { getData } from '../../utils';
 import axios from 'axios';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import BaseUrl from '../../utils/config/index'
 
 const ChangeAddress = ({ navigation, route }) => {
 
@@ -57,7 +58,7 @@ const ChangeAddress = ({ navigation, route }) => {
           getData('user').then(user => {
             axios({
               method: 'POST',
-              url: `http://192.168.100.101:3000/api/address/update`,
+              url: `${BaseUrl}/api/address/update`,
               headers: {
                 'authorization': `Bearer ${user.access_token}`,
                 'Content-Type': 'application/json',
@@ -87,7 +88,7 @@ const ChangeAddress = ({ navigation, route }) => {
           getData('user').then(user => {
             axios({
               method: 'POST',
-              url: `http://192.168.100.101:3000/api/address/add`,
+              url: `${BaseUrl}/api/address/add`,
               headers: {
                 'authorization': `Bearer ${user.access_token}`,
                 'Content-Type': 'application/json',
@@ -121,7 +122,7 @@ const ChangeAddress = ({ navigation, route }) => {
     getData('user').then(user => {
       axios({
         method: 'GET',
-        url: `http://192.168.100.101:3000/api/address/delete/${route.params._id}`,
+        url: `${BaseUrl}/api/address/delete/${route.params._id}`,
         headers: {
           'authorization': `Bearer ${user.access_token}`,
           'Content-Type': 'application/json',

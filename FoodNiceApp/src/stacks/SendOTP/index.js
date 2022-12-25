@@ -5,6 +5,7 @@ import AwesomeAlert from 'react-native-awesome-alerts';
 import axios from 'axios';
 import 'react-native-gesture-handler';
 import Lottie from 'lottie-react-native';
+import BaseUrl from '../../utils/config/index'
 
 const SendOTP = ({ navigation, route }) => {
 
@@ -22,7 +23,7 @@ const SendOTP = ({ navigation, route }) => {
     if (form.passwordNew === form.passwordChange) {
       axios({
         method: 'POST',
-        url: `http://192.168.100.101:3000/api/user/forgot-reset`,
+        url: `${BaseUrl}/api/user/forgot-reset`,
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'

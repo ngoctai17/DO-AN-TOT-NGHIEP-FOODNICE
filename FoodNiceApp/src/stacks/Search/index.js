@@ -14,6 +14,7 @@ import { Space, CardImageTextButton } from '../../components';
 import axios from 'axios';
 import { getData } from '../../utils';
 import { useForm } from '../../utils';
+import BaseUrl from '../../utils/config/index'
 
 const numColumns = 2;
 
@@ -34,7 +35,7 @@ const SearchScreen = ({ route }) => {
     getData('user').then(user => {
       axios({
         method: 'GET',
-        url: `http://192.168.100.101:3000/api/products/find/${form.name}`,
+        url: `${BaseUrl}/api/products/find/${form.name}`,
         headers: { authorization: `Bearer ${user.access_token}` }
       })
         .then(res => {
@@ -51,7 +52,7 @@ const SearchScreen = ({ route }) => {
       setData_User(user)
       axios({
         method: 'GET',
-        url: 'http://192.168.100.101:3000/api/categories/getAll',
+        url: `${BaseUrl}/api/categories/getAll`,
         headers: { authorization: `Bearer ${user.access_token}` }
       })
         .then(res => {
@@ -66,7 +67,7 @@ const SearchScreen = ({ route }) => {
   if (route.params) {
     axios({
       method: 'GET',
-      url: `http://192.168.100.101:3000/api/products/find/${route.params.name}`,
+      url: `${BaseUrl}/api/products/find/${route.params.name}`,
       headers: { authorization: `Bearer ${data_user.access_token}` }
     })
       .then(res => {
@@ -87,7 +88,7 @@ const SearchScreen = ({ route }) => {
           getData('user').then(user => {
             axios({
               method: 'GET',
-              url: `http://192.168.100.101:3000/api/products/category/${item._id}`,
+              url: `${BaseUrl}/api/products/category/${item._id}`,
               headers: { authorization: `Bearer ${user.access_token}` }
             })
               .then(res => {

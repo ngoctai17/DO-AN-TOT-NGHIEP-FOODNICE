@@ -9,6 +9,7 @@ import {
 import { CardImageTextButton, NavHeader, Space } from '../../components';
 import axios from 'axios';
 import { getData } from '../../utils';
+import BaseUrl from '../../utils/config/index'
 
 const numColumns = 2;
 
@@ -19,7 +20,7 @@ const Category = ({ route, navigation }) => {
     getData('user').then(user => {
       axios({
         method: 'GET',
-        url: `http://192.168.100.101:3000/api/products/category/${route.params._id}`,
+        url: `${BaseUrl}/api/products/category/${route.params._id}`,
         headers: { authorization: `Bearer ${user.access_token}` }
       })
       .then(res => {

@@ -17,6 +17,7 @@ import { useNavigation } from '@react-navigation/native';
 import { getData } from '../../utils';
 import axios from 'axios';
 import AwesomeAlert from 'react-native-awesome-alerts';
+import BaseUrl from '../../utils/config/index'
 
 const infoHeight = 364.0;
 
@@ -46,7 +47,7 @@ const ProductDetail = ({ route }) => {
         getData('user').then(user => {
             axios({
                 method: 'GET',
-                url: `http://192.168.100.101:3000/api/favorite/get/${user._id}`,
+                url: `${BaseUrl}/api/favorite/get/${user._id}`,
                 headers: { authorization: `Bearer ${user.access_token}` }
             })
                 .then(res => {
@@ -61,7 +62,7 @@ const ProductDetail = ({ route }) => {
         getData('user').then(user => {
             axios({
                 method: 'GET',
-                url: `http://192.168.100.101:3000/api/comment/get/${route.params._id}`,
+                url: `${BaseUrl}/api/comment/get/${route.params._id}`,
                 headers: { authorization: `Bearer ${user.access_token}` }
             })
                 .then(res => {
@@ -81,7 +82,7 @@ const ProductDetail = ({ route }) => {
         getData('user').then(user => {
             axios({
                 method: 'POST',
-                url: 'http://192.168.100.101:3000/api/cart/add',
+                url: `${BaseUrl}/api/cart/add`,
                 headers: {
                     authorization: `Bearer ${user.access_token}`,
                     'Content-Type': 'application/json',
@@ -115,7 +116,7 @@ const ProductDetail = ({ route }) => {
         getData('user').then(user => {
             axios({
                 method: 'POST',
-                url: 'http://192.168.100.101:3000/api/favorite/add',
+                url: `${BaseUrl}/api/favorite/add`,
                 headers: {
                     authorization: `Bearer ${user.access_token}`,
                     'Content-Type': 'application/json',
@@ -145,7 +146,7 @@ const ProductDetail = ({ route }) => {
         getData('user').then(user => {
             axios({
                 method: 'POST',
-                url: `http://192.168.100.101:3000/api/favorite/delete/`,
+                url: `${BaseUrl}/api/favorite/delete/`,
                 headers: {
                     authorization: `Bearer ${user.access_token}`,
                     'Content-Type': 'application/json',

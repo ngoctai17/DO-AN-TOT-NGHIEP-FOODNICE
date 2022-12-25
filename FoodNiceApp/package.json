@@ -17,6 +17,7 @@
     "@stripe/stripe-js": "^1.46.0",
     "@stripe/stripe-react-native": "^0.22.1",
     "axios": "^1.2.1",
+    "dotenv": "^16.0.3",
     "lottie-react-native": "^5.1.4",
     "react": "18.1.0",
     "react-content-loader": "^6.2.0",

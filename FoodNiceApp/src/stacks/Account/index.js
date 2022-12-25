@@ -21,6 +21,7 @@ import { useForm } from '../../utils';
 import AwesomeAlert from 'react-native-awesome-alerts';
 import { getData } from '../../utils';
 import axios from 'axios';
+import BaseUrl from '../../utils/config/index'
 
 const Account = ({ navigation, route }) => {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -52,7 +53,7 @@ const Account = ({ navigation, route }) => {
     getData('user').then(user => {
       axios({
         method: 'POST',
-        url: `http://192.168.100.101:3000/api/user/reset-password`,
+        url: `${BaseUrl}/api/user/reset-password`,
         headers: {
           authorization: `Bearer ${user.access_token}`,
           'Content-Type': 'application/json',
@@ -96,7 +97,7 @@ const Account = ({ navigation, route }) => {
       getData('user').then(user => {
         axios({
           method: 'POST',
-          url: `http://192.168.100.101:3000/api/user/update`,
+          url: `${BaseUrl}/api/user/update`,
           headers: {
             authorization: `Bearer ${user.access_token}`,
             'Content-Type': 'application/json',
