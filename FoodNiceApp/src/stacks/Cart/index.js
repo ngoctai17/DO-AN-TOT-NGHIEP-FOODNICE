@@ -60,7 +60,7 @@ const Cart = ({ navigation }) => {
     getData('user').then(user => {
       axios({
         method: 'GET',
-        url: `http://192.168.1.94:3000/api/cart/get/${user._id}`,
+        url: `http://192.168.100.101:3000/api/cart/get/${user._id}`,
         headers: { authorization: `Bearer ${user.access_token}` }
       })
         .then(res => {
@@ -102,7 +102,7 @@ const Cart = ({ navigation }) => {
           getData('user').then(user => {
             axios({
               method: 'GET',
-              url: `http://192.168.0.69:3000/api/cart/delete/${item._id}`,
+              url: `http://192.168.100.101:3000/api/cart/delete/${item._id}`,
               headers: { authorization: `Bearer ${user.access_token}` }
             })
               .then(res => {
@@ -122,7 +122,7 @@ const Cart = ({ navigation }) => {
             getData('user').then(user => {
               axios({
                 method: 'POST',
-                url: `http://192.168.0.69:3000/api/cart/update-cart`,
+                url: `http://192.168.100.101:3000/api/cart/update-cart`,
                 headers: {
                   authorization: `Bearer ${user.access_token}`,
                   'Content-Type': 'application/json',
@@ -153,7 +153,7 @@ const Cart = ({ navigation }) => {
             getData('user').then(user => {
               axios({
                 method: 'POST',
-                url: `http://192.168.0.69:3000/api/cart/update-cart`,
+                url: `http://192.168.100.101:3000/api/cart/update-cart`,
                 headers: {
                   authorization: `Bearer ${user.access_token}`,
                   'Content-Type': 'application/json',

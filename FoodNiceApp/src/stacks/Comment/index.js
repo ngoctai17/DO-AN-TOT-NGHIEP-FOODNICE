@@ -35,7 +35,7 @@ const Comment = ({ navigation, route }) => {
     getData('user').then(user => {
       axios({
         method: 'POST',
-        url: `http://192.168.1.94:3000/api/comment/add`,
+        url: `http://192.168.100.101:3000/api/comment/add`,
         headers: {
           'authorization': `Bearer ${user.access_token}`,
           'Content-Type': 'application/json',

@@ -27,7 +27,7 @@ const ForgotPassword = ({ navigation }) => {
     if (validateEmail(form.email)) {
       axios({
         method: 'POST',
-        url: `http://192.168.1.94:3000/api/user/send-OTP`,
+        url: `http://192.168.100.101:3000/api/user/send-OTP`,
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'

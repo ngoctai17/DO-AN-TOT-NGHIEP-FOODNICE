@@ -28,7 +28,7 @@ const Address = ({ navigation, route }) => {
         getData('user').then(user => {
             axios({
                 method: 'GET',
-                url: `http://192.168.1.94:3000/api/address/getByUser/${user._id}`,
+                url: `http://192.168.100.101:3000/api/address/getByUser/${user._id}`,
                 headers: { authorization: `Bearer ${user.access_token}` }
             })
                 .then(res => {

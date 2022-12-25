@@ -113,7 +113,7 @@ const Home = () => {
       setData_user(user);
       axios({
         method: 'GET',
-        url: 'http://192.168.1.94:3000/api/products/getAll',
+        url: 'http://192.168.100.101:3000/api/products/getAll',
         headers: { authorization: `Bearer ${user.access_token}` }
       })
         .then(res => {
@@ -125,7 +125,7 @@ const Home = () => {
 
       axios({
         method: 'GET',
-        url: 'http://192.168.1.94:3000/api/categories/getAll',
+        url: 'http://192.168.100.101:3000/api/categories/getAll',
         headers: { authorization: `Bearer ${user.access_token}` }
       })
         .then(res => {
@@ -141,7 +141,7 @@ const Home = () => {
   const loadProductByCate = async (id) => {
     await axios({
       method: 'GET',
-      url: `http://192.168.1.94:3000/api/products/category/${id}`,
+      url: `http://192.168.100.101:3000/api/products/category/${id}`,
       headers: { authorization: `Bearer ${data_user.access_token}` }
     })
       .then(res => {

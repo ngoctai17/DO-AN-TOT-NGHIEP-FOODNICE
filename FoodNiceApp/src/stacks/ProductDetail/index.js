@@ -46,7 +46,7 @@ const ProductDetail = ({ route }) => {
         getData('user').then(user => {
             axios({
                 method: 'GET',
-                url: `http://192.168.1.94:3000/api/favorite/get/${user._id}`,
+                url: `http://192.168.100.101:3000/api/favorite/get/${user._id}`,
                 headers: { authorization: `Bearer ${user.access_token}` }
             })
                 .then(res => {
@@ -61,7 +61,7 @@ const ProductDetail = ({ route }) => {
         getData('user').then(user => {
             axios({
                 method: 'GET',
-                url: `http://192.168.1.94:3000/api/comment/get/${route.params._id}`,
+                url: `http://192.168.100.101:3000/api/comment/get/${route.params._id}`,
                 headers: { authorization: `Bearer ${user.access_token}` }
             })
                 .then(res => {
@@ -81,7 +81,7 @@ const ProductDetail = ({ route }) => {
         getData('user').then(user => {
             axios({
                 method: 'POST',
-                url: 'http://192.168.1.94:3000/api/cart/add',
+                url: 'http://192.168.100.101:3000/api/cart/add',
                 headers: {
                     authorization: `Bearer ${user.access_token}`,
                     'Content-Type': 'application/json',
@@ -115,7 +115,7 @@ const ProductDetail = ({ route }) => {
         getData('user').then(user => {
             axios({
                 method: 'POST',
-                url: 'http://192.168.1.94:3000/api/favorite/add',
+                url: 'http://192.168.100.101:3000/api/favorite/add',
                 headers: {
                     authorization: `Bearer ${user.access_token}`,
                     'Content-Type': 'application/json',
@@ -145,7 +145,7 @@ const ProductDetail = ({ route }) => {
         getData('user').then(user => {
             axios({
                 method: 'POST',
-                url: `http://192.168.1.94:3000/api/favorite/delete/`,
+                url: `http://192.168.100.101:3000/api/favorite/delete/`,
                 headers: {
                     authorization: `Bearer ${user.access_token}`,
                     'Content-Type': 'application/json',
