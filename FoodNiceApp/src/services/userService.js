@@ -4,7 +4,7 @@ class UserServices {
   authLogin = async (form) => {
     return await axios({
       method: 'POST',
-      url: 'http://192.168.0.69:3000/api/user/login',
+      url: 'http://192.168.1.94:3000/api/user/login',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -20,7 +20,7 @@ class UserServices {
   authRegister = async (form) => {
     return await axios({
       method: 'POST',
-      url: 'http://192.168.0.69:3000/api/user/register',
+      url: 'http://192.168.1.94:3000/api/user/register',
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'

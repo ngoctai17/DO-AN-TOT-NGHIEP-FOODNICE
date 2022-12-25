@@ -30,7 +30,8 @@ import {
     Menu,
     SendOTP,
     Success,
-    Payment
+    Payment,
+    Address
 } from '../stacks';
 
 const Stack = createStackNavigator();
@@ -93,6 +94,11 @@ const Router = () => {
             <Stack.Screen
                 name="Category"
                 component={Category}
+                options={{ headerShown: false, gestureEnabled: false }}
+            />
+            <Stack.Screen
+                name="Address"
+                component={Address}
                 options={{ headerShown: false, gestureEnabled: false }}
             />
             <Stack.Screen

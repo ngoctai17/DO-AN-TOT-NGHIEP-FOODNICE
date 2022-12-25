@@ -22,7 +22,7 @@ const SendOTP = ({ navigation, route }) => {
     if (form.passwordNew === form.passwordChange) {
       axios({
         method: 'POST',
-        url: `http://192.168.0.69:3000/api/user/forgot-reset`,
+        url: `http://192.168.1.94:3000/api/user/forgot-reset`,
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'

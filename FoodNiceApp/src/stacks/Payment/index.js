@@ -29,7 +29,7 @@ const Payment = ({ navigation, route }) => {
 
     async function getStripeApiKey() {
         const { data } = await axios.get(
-            'http://192.168.0.69:3000/api/payment/stripeapikey',
+            'http://192.168.1.94:3000/api/payment/stripeapikey',
         );
         setPublishableKey(data.stripeApiKey);
     }
@@ -64,7 +64,7 @@ const Payment = ({ navigation, route }) => {
             },
         };
         const { data } = await axios.post(
-            'http://192.168.0.69:3000/api/payment/process',
+            'http://192.168.1.94:3000/api/payment/process',
             paymentData,
             config,
         );
@@ -99,7 +99,7 @@ const Payment = ({ navigation, route }) => {
             getData('user').then(user => {
                 axios({
                     method: 'POST',
-                    url: 'http://192.168.0.69:3000/api/order/checkout',
+                    url: 'http://192.168.1.94:3000/api/order/checkout',
                     headers: { authorization: `Bearer ${user.access_token}` },
                     data: order,
                 })

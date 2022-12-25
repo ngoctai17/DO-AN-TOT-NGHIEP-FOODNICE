@@ -56,7 +56,7 @@ const Profile = ({ navigation }) => {
         getData('user').then(user => {
             axios({
                 method: 'GET',
-                url: `http://192.168.0.69:3000/api/user/profile/${user._id}`,
+                url: `http://192.168.1.94:3000/api/user/profile/${user._id}`,
                 headers: { authorization: `Bearer ${user.access_token}` }
             })
                 .then(res => {
@@ -123,6 +123,16 @@ const Profile = ({ navigation }) => {
                                 <Image source={require('../../assets/icons/icon-favorite-active.png')} />
                                 <Text style={styles.textItemEdit}>
                                     Favorite
+                                </Text>
+                            </View>
+                            <Image style={styles.imgEdit} source={require('../../assets/icons/icon-next-page.png')} />
+                        </Pressable>
+                        <Pressable onPress={() => navigation.navigate('Address')}
+                            style={styles.itemEditContainer}>
+                            <View style={styles.itemEditView1}>
+                                <Image source={require('../../assets/icons/icon-address.png')} />
+                                <Text style={styles.textItemEdit}>
+                                    Address
                                 </Text>
                             </View>
                             <Image style={styles.imgEdit} source={require('../../assets/icons/icon-next-page.png')} />

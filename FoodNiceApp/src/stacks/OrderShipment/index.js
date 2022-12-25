@@ -50,6 +50,12 @@ const OrderShipment = ({ navigation, route }) => {
     totals: '',
   });
 
+  if (route.params) {
+    form.customer = route.params.customer
+    form.address = route.params.address
+    form.phone = route.params.phone
+  }
+
   const [isModalDiscount, setModalDiscount] = useState(false);
 
   const toggleModal = () => {
@@ -60,6 +66,7 @@ const OrderShipment = ({ navigation, route }) => {
   for (let cart of data_cart) {
     totals += cart.quantity * cart.product_id.price
   }
+  form.totals = totals
 
   useScrollToTop(ref);
 
@@ -73,14 +80,13 @@ const OrderShipment = ({ navigation, route }) => {
     setIsPaypal(true);
     setIsTienMat(false);
     form.status = true;
-    form.totals = totals
   }
 
-  useEffect(() => {
-    getData('user').then(user => {
+  const loadData = async () => {
+    await getData('user').then(user => {
       axios({
         method: 'GET',
-        url: `http://192.168.0.69:3000/api/cart/get/${user._id}`,
+        url: `http://192.168.1.94:3000/api/cart/get/${user._id}`,
         headers: { authorization: `Bearer ${user.access_token}` }
       })
         .then(res => {
@@ -91,6 +97,10 @@ const OrderShipment = ({ navigation, route }) => {
           console.log(err);
         });
     });
+  }
+
+  useEffect(() => {
+    loadData()
     return () => {
       setData_Cart([]);
     };
@@ -161,7 +171,7 @@ const OrderShipment = ({ navigation, route }) => {
         getData('user').then(user => {
           axios({
             method: 'POST',
-            url: `http://192.168.0.69:3000/api/order/checkout`,
+            url: `http://192.168.1.94:3000/api/order/checkout`,
             headers: {
               'authorization': `Bearer ${user.access_token}`,
               'Content-Type': 'application/json',
@@ -182,7 +192,7 @@ const OrderShipment = ({ navigation, route }) => {
                 setShowMessage(true)
                 setTimeout(() => {
                   setShowMessage(false)
-              }, 1500)
+                }, 1500)
               } else {
                 navigation.navigate('Success')
               }
@@ -195,10 +205,7 @@ const OrderShipment = ({ navigation, route }) => {
     }
   }
 
-  const Render = ({ data, navigation }) => {
-    form.customer = data.customer
-    form.address = data.address
-    form.phone = data.phone
+  const Render = ({ navigation }) => {
     return (
       <>
         <View style={styles.addressContainer}>
@@ -214,16 +221,16 @@ const OrderShipment = ({ navigation, route }) => {
             textButton="Change"
             borderBottomColor={0}
             paddingHorizontal={0}
-            onPressButton={() => navigation.navigate('ChangeAddress', form)}
+            onPressButton={() => navigation.navigate('Address', form)}
           />
-          {data ? (
+          {route.params._id ? (
             <View>
-              <Text style={styles.titleAddress}>Tên: {data.customer}</Text>
+              <Text style={styles.titleAddress}>Tên: {form.customer}</Text>
               <Text style={styles.descAddress}>
-                Địa chỉ {data.address}
+                Địa chỉ {form.address}
               </Text>
               <Text style={styles.footAddress}>
-                Điện thoại: {data.phone}
+                Điện thoại: {form.phone}
               </Text>
               <Space height={20} />
             </View>
@@ -295,7 +302,6 @@ const OrderShipment = ({ navigation, route }) => {
         style={styles.mainContainer}
         showsVerticalScrollIndicator={false}>
         <Render
-          data={route.params}
           navigation={navigation} />
       </ScrollView>
       <KeyboardScrollUpForms

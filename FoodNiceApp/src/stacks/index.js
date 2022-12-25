@@ -20,8 +20,10 @@ import SendOTP from './SendOTP';
 import Success from './Success';
 import ForgotPassword from './ForgotPassword';
 import Menu from './Menu';
+import Address from './Address';
 
 export {
+  Address,
   Menu,
   ForgotPassword,
   Success,

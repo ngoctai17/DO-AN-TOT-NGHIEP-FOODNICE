@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -6,6 +6,7 @@ import {
   Platform,
   SafeAreaView,
   Dimensions,
+  Text
 } from 'react-native';
 import {
   Button,
@@ -14,14 +15,132 @@ import {
   TextInput,
 } from '../../components';
 import { KeyboardScrollUpForms, useForm } from '../../utils';
+import { getData } from '../../utils';
+import axios from 'axios';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 const ChangeAddress = ({ navigation, route }) => {
 
+  const [showAlert, setShowAlert] = useState(false);
+  const [id, setId] = useState(false);
+  const [message, setMessage] = useState();
   const [form, setForm] = useForm({
-    customer: route.params.customer,
-    address: route.params.address,
-    phone: route.params.phone,
+    customer: '',
+    address: '',
+    phone: '',
   });
+
+  if (route.params) {
+    form.customer = route.params.customer
+    form.address = route.params.address
+    form.phone = route.params.phone
+    setId(route.params._id)
+    route.params = ''
+  }
+
+  const save = () => {
+    if (!form.customer || !form.address || !form.phone) {
+      setMessage('Vui lòng nhập thông tin')
+      setShowAlert(true)
+      setTimeout(() => {
+        setShowAlert(false)
+      }, 1000)
+    } else {
+      if (isNaN(form.phone)) {
+        setMessage("Vui lòng nhập đúng SDT!")
+        setShowAlert(true)
+        setTimeout(() => {
+          setShowAlert(false)
+        }, 1000)
+      } else {
+        if (id) {
+          getData('user').then(user => {
+            axios({
+              method: 'POST',
+              url: `http://192.168.1.94:3000/api/address/update`,
+              headers: {
+                'authorization': `Bearer ${user.access_token}`,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+              data: {
+                "_id": String(id),
+                "user_id": String(user._id),
+                "address": String(form.address),
+                "customer": String(form.customer),
+                "phone": Number(form.phone)
+              }
+            })
+              .then(res => {
+                setMessage('Thành công')
+                setShowAlert(true)
+                setTimeout(() => {
+                  setShowAlert(false)
+                  navigation.navigate('Address', form)
+                }, 1000)
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          })
+        }else{
+          getData('user').then(user => {
+            axios({
+              method: 'POST',
+              url: `http://192.168.1.94:3000/api/address/add`,
+              headers: {
+                'authorization': `Bearer ${user.access_token}`,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+              data: {
+                "user_id": String(user._id),
+                "address": String(form.address),
+                "customer": String(form.customer),
+                "phone": Number(form.phone)
+              }
+            })
+              .then(res => {
+                setMessage('Thành công')
+                setShowAlert(true)
+                setTimeout(() => {
+                  setShowAlert(false)
+                  navigation.navigate('Address', form)
+                }, 1000)
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          })
+        }
+      }
+    }
+  }
+
+  const deleteAddress = () => {
+    getData('user').then(user => {
+      axios({
+        method: 'GET',
+        url: `http://192.168.1.94:3000/api/address/delete/${route.params._id}`,
+        headers: {
+          'authorization': `Bearer ${user.access_token}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      })
+        .then(res => {
+          setMessage('Thành công')
+          setShowAlert(true)
+          setTimeout(() => {
+            setShowAlert(false)
+            navigation.navigate('Address', form)
+          }, 1000)
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    })
+  }
 
   const space_height = Dimensions.get('screen').height / 28;
 
@@ -68,19 +187,34 @@ const ChangeAddress = ({ navigation, route }) => {
               borderWidth={0}
               fontFam="CircularStd-Bold"
               txtDecorationLine="none"
-              onPress={() => {
-                if (Number.isNaN(form.phone)) {
-
-                } else {
-                  navigation.navigate('Order Shipment', form)
-                }
-              }}
+              onPress={save}
             />
+            {id ? (
+              <View style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginTop: 20
+              }}>
+                <Text onPress={deleteAddress} style={{ color: 'red' }}>Xóa địa chỉ</Text>
+              </View>
+            ) : (
+              <></>
+            )}
             <Space height={50} />
           </View>
         </ScrollView>
       </KeyboardScrollUpForms>
-    </SafeAreaView>
+      <AwesomeAlert
+        show={showAlert}
+        showProgress={false}
+        title={message}
+        titleStyle={{ color: 'red' }}
+        closeOnTouchOutside={false}
+        closeOnHardwareBackPress={false}
+        showCancelButton={false}
+        showConfirmButton={false}
+      />
+    </SafeAreaView >
   );
 };
 

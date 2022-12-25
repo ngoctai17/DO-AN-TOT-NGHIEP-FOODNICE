@@ -35,7 +35,6 @@ router.post('/checkout', isAuthenticatedUser, async function (req, res, next) {
                 if (body.discount) {
                     const discountGet = await discountController.getByDiscount(body.discount);
                     discount = discountGet;
-                    console.log(discount)
                     if (!discount) {
                         error = true;
                         message = "Mã giảm giá không tồn tại!"
@@ -94,6 +93,8 @@ router.post('/checkout', isAuthenticatedUser, async function (req, res, next) {
             }
         }
 
+        console.log('total' + totals)
+
         if (error === false) {
             order = {
                 cart_id: arr,
@@ -120,7 +121,7 @@ router.post('/checkout', isAuthenticatedUser, async function (req, res, next) {
         }
     } catch (error) {
         console.log(error)
-        res.status(500).json({ message : error.data });
+        res.status(500).json({ message: error.data });
     }
 });
 
@@ -157,6 +158,19 @@ router.get('/get/:id', async function (req, res, next) {
         res.status(200).json(data);
     } catch (error) {
         console.log(error)
+        res.status(500).json(error);
+    }
+});
+
+router.get('/update/:id', async function (req, res, next) {
+    const { id } = req.params;
+    try {
+        const order = await orderController.getOrderById(id);
+        order.delivering = 'Đã giao hàng';
+        order.status = true;
+        await orderController.updateStatusOrder(id, order);
+        res.status(200).json({ success: 'Thành công'})
+    } catch (error) {
         res.status(500).json(error);
     }
 });

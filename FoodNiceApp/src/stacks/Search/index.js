@@ -34,7 +34,7 @@ const SearchScreen = ({ route }) => {
     getData('user').then(user => {
       axios({
         method: 'GET',
-        url: `http://192.168.0.69:3000/api/products/find/${form.name}`,
+        url: `http://192.168.1.94:3000/api/products/find/${form.name}`,
         headers: { authorization: `Bearer ${user.access_token}` }
       })
         .then(res => {
@@ -51,7 +51,7 @@ const SearchScreen = ({ route }) => {
       setData_User(user)
       axios({
         method: 'GET',
-        url: 'http://192.168.0.69:3000/api/categories/getAll',
+        url: 'http://192.168.1.94:3000/api/categories/getAll',
         headers: { authorization: `Bearer ${user.access_token}` }
       })
         .then(res => {
@@ -66,7 +66,7 @@ const SearchScreen = ({ route }) => {
   if (route.params) {
     axios({
       method: 'GET',
-      url: `http://192.168.0.69:3000/api/products/find/${route.params.name}`,
+      url: `http://192.168.1.94:3000/api/products/find/${route.params.name}`,
       headers: { authorization: `Bearer ${data_user.access_token}` }
     })
       .then(res => {
@@ -87,7 +87,7 @@ const SearchScreen = ({ route }) => {
           getData('user').then(user => {
             axios({
               method: 'GET',
-              url: `http://192.168.0.69:3000/api/products/category/${item._id}`,
+              url: `http://192.168.1.94:3000/api/products/category/${item._id}`,
               headers: { authorization: `Bearer ${user.access_token}` }
             })
               .then(res => {

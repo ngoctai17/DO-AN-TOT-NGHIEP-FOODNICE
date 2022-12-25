@@ -12,6 +12,8 @@ import {
   Border,
   Button
 } from '../../components';
+import { getData } from '../../utils';
+import axios from 'axios';
 
 function currencyFormat(num) {
   return num.toFixed(0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') + ' VND'
@@ -131,7 +133,30 @@ const OrderDetail = ({ navigation, route }) => {
             borderWidth={0}
             fontFam="CircularStd-Bold"
             txtDecorationLine="none"
-          // onPress={() => { setModalProduct(false) }}
+            onPress={() => getData('user').then(user => {
+              axios({
+                method: 'GET',
+                url: `http://192.168.1.94:3000/api/order/update/${order._id}`,
+                headers: { authorization: `Bearer ${user.access_token}` }
+              })
+                .then(res => {
+                  axios({
+                    method: 'GET',
+                    url: `http://192.168.1.94:3000/api/order/get/${user._id}`,
+                    headers: { authorization: `Bearer ${user.access_token}` }
+                  })
+                    .then(res => {
+                      navigation.navigate('Order')
+                    })
+                    .catch(err => {
+                      console.log(err);
+                    });
+                })
+                .catch(err => {
+                  console.log(err);
+                });
+            })
+            }
           />
         ) : (
           <></>

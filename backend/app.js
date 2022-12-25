@@ -126,8 +126,10 @@ var profile = require('./routes/profile');
 var addCart = require('./routes/cart');
 var discount = require('./routes/discount');
 var apiPayment = require('./routes/apiPayment');
+var apiAddress = require('./routes/apiAddress');
 
 app.use('/api/cart', apiCart);
+app.use('/api/address', apiAddress);
 app.use('/api/categories', apiCategory);
 app.use('/api/products', apiProduct);
 app.use('/api/user', apiUser);
