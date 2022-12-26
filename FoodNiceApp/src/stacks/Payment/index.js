@@ -73,7 +73,7 @@ const Payment = ({ navigation, route }) => {
         const billingDetails = {
             name: route.params.customer,
             email: route.params.email,
-            phone: route.params.phone,
+            phone: String(route.params.phone),
             address: {
                 city: route.params.address,
             },
